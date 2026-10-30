@@ -1,0 +1,57 @@
+class Pet:
+    def __init__(self, name: str, species: str = "Кот"):
+        self.name = name
+        self.species = species
+        self.hunger = 50       
+        self.energy = 50       
+        self.mood = 50         
+
+    def feed(self, food_amount: int = 20):
+        """Покормить питомца"""
+        self.hunger = min(100, self.hunger + food_amount)
+        self.mood = min(100, self.mood + 5)
+        print(f" {self.species} {self.name} покушал. Сытость: {self.hunger}, Настроение: {self.mood}")
+
+    def play(self):
+        """Поиграть с питомцем"""
+        if self.energy < 15:
+            print(f" {self.species} {self.name} слишком устал(а) и хочет спать!")
+            return
+        
+        self.energy = max(0, self.energy - 20)
+        self.hunger = max(0, self.hunger - 10)
+        self.mood = min(100, self.mood + 25)
+        print(f" Вы поиграли с {self.species.lower()}ом {self.name}. Энергия: {self.energy}, Сытость: {self.hunger}, Настроение: {self.mood}")
+
+    def sleep(self, hours: int = 3):
+        """Уложить питомца спать"""
+        energy_gain = hours * 25
+        self.energy = min(100, self.energy + energy_gain)
+        self.hunger = max(0, self.hunger - (hours * 5))
+        print(f" {self.species} {self.name} поспал(а) {hours} часа(-ов). Энергия восстановилась до {self.energy}.")
+
+    def status(self):
+        """Показать текущее состояние питомца"""
+        print(f"\n--- Состояние питомца [{self.species} {self.name}] ---")
+        print(f"• Сытость: {self.hunger}/100")
+        print(f"• Энергия: {self.energy}/100")
+        print(f"• Настроение: {self.mood}/100")
+        print("-" * 35)
+
+
+# Пример использования класса (симуляция жизни)
+if __name__ == "__main__":
+    # Создаем питомца по имени Барсик
+    my_pet = Pet(name="Барсик", species="Кот")
+
+    # Проверяем начальное состояние
+    my_pet.status()
+
+    # Имитируем действия
+    my_pet.play()
+    my_pet.feed(30)
+    my_pet.status()
+
+    my_pet.sleep(2)
+    my_pet.play()
+    my_pet.status()
